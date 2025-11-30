@@ -28,7 +28,7 @@ body {
     text-align: center;
     font-weight: 900;
     text-shadow: 0 0 10px #00d9ff, 0 0 25px #00a3cc;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .neon-subtitle {
@@ -36,10 +36,10 @@ body {
     color: #9ae6ff;
     text-align: center;
     opacity: 0.9;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem; /* FIXED */
 }
 
-/* Input + Panels */
+/* Panel */
 .neon-panel {
     border-radius: 18px;
     padding: 1.2rem;
@@ -62,7 +62,7 @@ body {
     font-weight: 500;
 }
 
-/* Optimize Button */
+/* Button */
 .neon-button > button {
     width: 100%;
     border-radius: 999px !important;
@@ -74,12 +74,9 @@ body {
     text-transform: uppercase;
     box-shadow: 0 0 18px rgba(0,255,153,0.9), 0 0 40px rgba(0,255,234,0.6);
 }
+.neon-button > button:hover { filter: brightness(1.2); }
 
-.neon-button > button:hover {
-    filter: brightness(1.2);
-}
-
-/* IMPACT METRICS */
+/* IMPACT METRICS BOX */
 .impact-box {
     margin-top: 1rem;
     padding: 1.3rem;
@@ -98,7 +95,7 @@ body {
     text-transform: uppercase;
 }
 
-/* metric card */
+/* METRIC CARD */
 .metric {
     padding: 1rem 1.2rem;
     border-radius: 14px;
@@ -117,8 +114,8 @@ body {
 
 .metric-label {
     font-size: 0.78rem;
-    text-transform: uppercase;
     letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: #d5faf6;
 }
 </style>
@@ -126,13 +123,13 @@ body {
 st.markdown(NEON_CSS, unsafe_allow_html=True)
 
 # =========================
-# TITLE SECTION
+# TITLE
 # =========================
 st.markdown('<div class="neon-title">Q-SmartGrid Control Room</div>', unsafe_allow_html=True)
 st.markdown('<div class="neon-subtitle">Adjust building loads, then let AI + Quantum Optimization reduce waste automatically ⚡</div>', unsafe_allow_html=True)
 
 # =========================
-# INPUT PANEL
+# INPUT LOADS PANEL
 # =========================
 left_col, right_col = st.columns([1.2, 1.4])
 
@@ -156,8 +153,7 @@ with left_col:
 with right_col:
     st.markdown('<div class="neon-panel">', unsafe_allow_html=True)
     st.markdown('<div class="neon-header-small">CURRENT GRID STATE • BEFORE OPTIMIZATION</div>', unsafe_allow_html=True)
-    before_data = {"Buildings": ["A", "B", "C"], "Load (kW)": original_loads}
-    st.bar_chart(before_data, x="Buildings", y="Load (kW)", use_container_width=True)
+    st.bar_chart({"Buildings": ["A", "B", "C"], "Load (kW)": original_loads})
     st.caption(f"⚠️ Peak load before: **{peak_before} kW**")
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -168,7 +164,7 @@ st.markdown("</div>", unsafe_allow_html=True)
 st.write("")
 
 # =========================
-# OPTIMIZATION LOGIC
+# OPTIMIZATION
 # =========================
 if optimize_clicked:
 
@@ -186,14 +182,14 @@ if optimize_clicked:
         st.markdown('<div class="neon-panel">', unsafe_allow_html=True)
         st.markdown('<div class="neon-header-small">GRID SNAPSHOT • BEFORE</div>', unsafe_allow_html=True)
         st.bar_chart({"Buildings": ["A", "B", "C"], "Load (kW)": original_loads})
-        st.caption("🔸 Unoptimized state – higher peak & waste.")
+        st.caption("🔸 Unoptimized state – high waste")
         st.markdown("</div>", unsafe_allow_html=True)
 
     with col_after:
         st.markdown('<div class="neon-panel">', unsafe_allow_html=True)
         st.markdown('<div class="neon-header-small">OPTIMIZED GRID • AFTER Q-SMARTGRID</div>', unsafe_allow_html=True)
         st.bar_chart({"Buildings": ["A", "B", "C"], "Load (kW)": optimized})
-        st.caption("✅ Optimized distribution – lower peak & total load.")
+        st.caption("✅ Lower load & lower peak")
         st.markdown("</div>", unsafe_allow_html=True)
 
     with col_metrics:
@@ -207,4 +203,4 @@ if optimize_clicked:
         st.markdown("</div>", unsafe_allow_html=True)
 
 else:
-    st.caption("👆 اضبطي الأحمال، ثم اضغطي **Optimize** لتشاهدي تأثير Q-SmartGrid.")
+    st.caption("👆 Adjust the sliders, then click **Optimize** to see how Q-SmartGrid reduces waste in real-time.")
