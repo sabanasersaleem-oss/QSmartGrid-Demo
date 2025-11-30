@@ -265,4 +265,4 @@ if optimize_clicked:
         st.markdown("</div>", unsafe_allow_html=True)
 
 else:
-    st.caption("👆 اضبطي الأحمال للمباني، ثم اضغطي زر **Optimize** لترين تأثير Q-SmartGrid لايف أمام اللجنة.")
+    st.caption("👆  **Optimize** .")
