@@ -15,105 +15,77 @@ st.set_page_config(
 NEON_CSS = """
 <style>
 body {
-    background: radial-gradient(circle at top, #0f172a 0, #020617 45%, #000 100%) !important;
-    color: #e5e7eb !important;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: radial-gradient(circle at top, #051622 0%, #000814 60%, #000 100%) !important;
+    font-family: 'Segoe UI', sans-serif;
+    color: #e0faff;
 }
 
-section.main > div {
-    padding-top: 1rem;
-}
-
-/* Hide the default Streamlit menu & footer */
-#MainMenu, footer, header {visibility: hidden;}
+/* remove streamlit crap */
+#MainMenu, header, footer {visibility: hidden;}
 
 .neon-title {
-    font-size: 2.6rem;
-    font-weight: 800;
+    color: #5efcff;
+    font-size: 2.8rem;
     text-align: center;
-    letter-spacing: 0.08em;
-    color: #22d3ee;
-    text-shadow: 0 0 8px rgba(34,211,238,0.8),
-                 0 0 20px rgba(56,189,248,0.7);
-    margin-bottom: 0.2rem;
+    font-weight: 900;
+    text-shadow: 0 0 8px #00d9ff, 0 0 22px #00a3cc;
+    margin-bottom: 0.3rem;
 }
 
 .neon-subtitle {
+    font-size: 1rem;
+    color: #9ae6ff;
     text-align: center;
-    color: #a5b4fc;
-    font-size: 0.98rem;
-    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
 }
 
-.neon-panel {
+/* IMPACT PANEL */
+.impact-box {
+    margin-top: 1rem;
+    padding: 1.3rem;
     border-radius: 18px;
-    padding: 1.1rem 1.3rem;
-    background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(8,47,73,0.95));
-    border: 1px solid rgba(56,189,248,0.5);
-    box-shadow:
-       0 0 16px rgba(56,189,248,0.4),
-       0 0 40px rgba(8,47,73,0.6);
+    border: 1px solid rgba(0,255,255,0.45);
+    background: linear-gradient(135deg, rgba(0,34,43,0.95), rgba(0,79,102,0.92));
+    box-shadow: 0 0 20px rgba(0,255,255,0.2), 0 0 45px rgba(0,145,165,0.35);
 }
 
-.neon-header-small {
-    font-size: 0.9rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #38bdf8;
-    margin-bottom: 0.2rem;
-}
-
-.neon-label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #e5e7eb;
-}
-
-.neon-metric {
-    background: radial-gradient(circle at top left, rgba(34,197,94,0.17), rgba(15,23,42,0.9));
-    border-radius: 14px;
-    padding: 0.8rem 1rem;
-    border: 1px solid rgba(34,197,94,0.6);
-    margin-bottom: 0.6rem;
-}
-
-.neon-metric span.label {
-    display: block;
-    font-size: 0.75rem;
-    color: #bbf7d0;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-}
-
-.neon-metric span.value {
-    display: block;
-    font-size: 1.2rem;
+/* METRIC title */
+.impact-title {
+    color: #5efcff;
+    font-size: 1rem;
     font-weight: 700;
-    color: #bbf7d0;
-}
-
-.neon-button > button {
-    width: 100%;
-    border-radius: 999px !important;
-    border: 1px solid rgba(45,212,191,0.9) !important;
-    background: radial-gradient(circle at top, #22c55e, #0f766e) !important;
-    color: #ecfeff !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.12em;
+    margin-bottom: 1rem;
     text-transform: uppercase;
-    box-shadow:
-       0 0 14px rgba(16,185,129,0.9),
-       0 0 40px rgba(45,212,191,0.8);
 }
 
-.neon-button > button:hover {
-    filter: brightness(1.1);
-    box-shadow:
-       0 0 20px rgba(16,185,129,1),
-       0 0 50px rgba(45,212,191,1);
+/* Metric card */
+.metric {
+    padding: 1rem 1.2rem;
+    border-radius: 14px;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, rgba(1,63,73,1), rgba(0,122,153,0.8));
+    border: 1px solid rgba(0,255,234,0.35);
+    box-shadow: 0 0 16px rgba(0,255,255,0.3);
+}
+
+.metric-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #67ffcc;
+    text-shadow: 0 0 12px rgba(0,255,153,0.8);
+}
+
+.metric-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #d5faf6;
 }
 </style>
 """
+
 
 st.markdown(NEON_CSS, unsafe_allow_html=True)
 
@@ -130,27 +102,42 @@ st.markdown(
 # 🔌 Input Panel – Building Loads
 # =========================
 left_col, right_col = st.columns([1.2, 1.4])
+with col_metrics:
+    st.markdown('<div class="impact-box">', unsafe_allow_html=True)
+    st.markdown('<div class="impact-title">⚡ IMPACT METRICS</div>', unsafe_allow_html=True)
 
-with left_col:
-    st.markdown('<div class="neon-panel">', unsafe_allow_html=True)
-    st.markdown('<div class="neon-header-small">INPUT • BUILDING LOADS</div>', unsafe_allow_html=True)
-    st.markdown('<p class="neon-label">Set the current consumption for each building (kW):</p>', unsafe_allow_html=True)
+    st.markdown(
+        f'''
+        <div class="metric">
+            <div class="metric-value">{int(savings)} kW</div>
+            <div class="metric-label">TOTAL SAVINGS</div>
+        </div>
+        ''',
+        unsafe_allow_html=True
+    )
 
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        A = st.slider("🏢 A", 10, 120, 60)
-    with c2:
-        B = st.slider("🏭 B", 10, 120, 80)
-    with c3:
-        C = st.slider("🏨 C", 10, 120, 45)
+    st.markdown(
+        f'''
+        <div class="metric">
+            <div class="metric-value">{int(peak_reduction)} kW</div>
+            <div class="metric-label">PEAK REDUCTION</div>
+        </div>
+        ''',
+        unsafe_allow_html=True
+    )
 
-    original_loads = np.array([A, B, C])
-    total_before = original_loads.sum()
-
-    st.write("")
-    st.caption("🔋 Total load before optimization: **{} kW**".format(int(total_before)))
+    st.markdown(
+        f'''
+        <div class="metric">
+            <div class="metric-value">{savings_percent}%</div>
+            <div class="metric-label">EFFICIENCY GAIN</div>
+        </div>
+        ''',
+        unsafe_allow_html=True
+    )
 
     st.markdown("</div>", unsafe_allow_html=True)
+
 
 # =========================
 # 📊 Before Optimization Chart
